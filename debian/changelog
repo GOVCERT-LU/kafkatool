@@ -1,0 +1,32 @@
+kafkatool (1.2-1) stable; urgency=medium
+
+  * Add support for longer list of topics to watch
+  * Update Sarama, Cobra and termbox-go libraries 
+
+ -- Daniel <daniel.struck@govcert.etat.lu>  Wed, 20 Jun 2018 17:04:59 +0200
+
+kafkatool (1.1-1) stable; urgency=medium
+
+  * The topic writer can now insert the content of a file line by line
+  * Fixed bug in the topic reader, only one partition was read
+
+ -- Daniel <daniel.struck@govcert.etat.lu>  Fri, 04 May 2018 14:11:36 +0200
+
+kafkatool (0.2-1) stable; urgency=medium
+
+  * Color output for the topic/list command (refreshes every 2 seconds)
+  * Set minimum golang-go version in Debian control file
+
+ -- Daniel Struck <daniel.struck@govcert.etat.lu>  Mon, 09 Apr 2018 11:46:11 +0200
+
+kafkatool (0.1-2) stable; urgency=medium
+
+  * Add golang-go build dependency and bash-completion suggestion to debian control file
+
+ -- Daniel Struck <daniel.struck@govcert.etat.lu>  Fri, 06 Apr 2018 08:54:47 +0200
+
+kafkatool (0.1-1) stable; urgency=medium
+
+  * Initial release
+
+ -- Daniel Struck <daniel.struck@govcert.etat.lu>  Tue, 03 Apr 2018 15:18:06 +0200

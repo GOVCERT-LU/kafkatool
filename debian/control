@@ -1,0 +1,16 @@
+Source: kafkatool
+Section: database
+Priority: optional
+Maintainer: Daniel Struck <daniel.struck@govcert.etat.lu>
+Build-Depends: debhelper (>= 9), golang-go (>=1.8.1)
+Standards-Version: 3.9.8
+Homepage: https://gitlab.int.govcert.etat.lu/sysadmin/kafkatool
+Vcs-Git: https://gitlab.int.govcert.etat.lu/sysadmin/kafkatool.git
+Vcs-Browser: https://gitlab.int.govcert.etat.lu/sysadmin/kafkatool
+
+Package: kafkatool
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: bash-completion
+Description: GOVCERT.LU Kafka management tool.
+ GOVCERT.LU Kafka management tool.
