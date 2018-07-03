@@ -1,5 +1,7 @@
 # Kafka GOVCERT.LU Tools
 
+The kafkatool leverages the Sarama Go library for Apache Kafka to propose an easy to use command line tool to facilitate the daily management of a Kafka cluster.
+
 ## Compile the kafka-tool binary
 
 Set the GOPATH environment variable.
