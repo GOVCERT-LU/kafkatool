@@ -2,7 +2,7 @@
 
 ## Compile the kafka-tool binary
 
-### Set the GOPATH environment variable
+Set the GOPATH environment variable.
 
 ```bash
 make
