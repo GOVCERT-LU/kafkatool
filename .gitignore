@@ -1,0 +1,9 @@
+src/github.com/
+src/kafkatool/vendor/
+bin/
+pkg/
+
+/.vscode
+*.deb
+Gopkg.lock
+kafkatool_completion.sh
