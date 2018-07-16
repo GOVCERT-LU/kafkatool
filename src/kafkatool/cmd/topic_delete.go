@@ -14,6 +14,7 @@ import (
 )
 
 var topicNameDelete string
+var yesPrompt bool
 
 // deleteCmd represents the delete command
 var topicDeleteCmd = &cobra.Command{
@@ -32,7 +33,7 @@ var topicDeleteCmd = &cobra.Command{
 
 		fmt.Println()
 
-		if helper.Confirmation(fmt.Sprintf("Do you really want to delete the topic %s?", topicNameDelete)) {
+		if yesPrompt || helper.Confirmation(fmt.Sprintf("Do you really want to delete the topic %s?", topicNameDelete)) {
 
 			resp, err := controller.DeleteTopics(topicRequest)
 			helper.Check(err)
@@ -61,8 +62,12 @@ var topicDeleteCmd = &cobra.Command{
 }
 
 func init() {
+
 	topicCmd.AddCommand(topicDeleteCmd)
 
 	topicDeleteCmd.Flags().StringVar(&topicNameDelete, "name", "", "topic name")
 	topicDeleteCmd.MarkFlagRequired("name")
+
+	topicDeleteCmd.Flags().BoolVar(&yesPrompt, "yes", false, "automatic yes to confirmation prompt")
+
 }
