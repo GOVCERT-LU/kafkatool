@@ -27,16 +27,11 @@
 
 [[constraint]]
   name = "github.com/Shopify/sarama"
-  version = "1.17.0"
-#  revision = "8da9fa72b86689a02355dca1182444cca607e054"
+  version = "1.19.0"
 
 [[constraint]]
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/rcrowley/go-metrics"
 
 [[constraint]]
   name = "github.com/spf13/cobra"
@@ -44,11 +39,11 @@
 
 [[constraint]]
   name = "github.com/spf13/viper"
-  version = "1.0.2"
+  version = "1.3.0"
 
 [[constraint]]
   name = "github.com/nsf/termbox-go"
-  revision = "5c94acc5e6eb520f1bcd183974e01171cc4c23b3"
+  revision = "60ab7e3d12ed91bc1b2486559c4b3a6b62297577"
 
 [prune]
   go-tests = true
