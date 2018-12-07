@@ -210,7 +210,7 @@ var topicListCmd = &cobra.Command{
 
 			for {
 				ev := termbox.PollEvent()
-				if ev.Type == termbox.EventKey && (ev.Key == termbox.KeyEsc || ev.Ch == 113) {
+				if ev.Type == termbox.EventKey && (ev.Key == termbox.KeyEsc || ev.Ch == 113 || ev.Key == termbox.KeyCtrlC) {
 					termbox.Close()
 					os.Exit(0)
 				}
