@@ -27,7 +27,7 @@
 
 [[constraint]]
   name = "github.com/Shopify/sarama"
-  version = "1.22.1"
+  version = "1.25.0"
 
 [[constraint]]
   branch = "master"
@@ -39,11 +39,11 @@
 
 [[constraint]]
   name = "github.com/spf13/viper"
-  version = "1.4.0"
+  version = "1.6.0"
 
 [[constraint]]
   name = "github.com/nsf/termbox-go"
-  revision = "288510b9734e30e7966ec2f22b87c5f8e67345e3"
+  revision = "58d4fcbce2a7e6a3a48afbc6b7ec2a916ac33ee0"
 
 [prune]
   go-tests = true
