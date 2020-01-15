@@ -1,3 +1,9 @@
+kafkatool (1.2.3-1) stable; urgency=medium
+
+  * Update dependencies 
+
+ -- Daniel <daniel.struck@govcert.etat.lu>  Wed, 15 Jan 2020 08:30:54 +0100
+
 kafkatool (1.2.2-1) stable; urgency=medium
 
   * Update dependencies 
