@@ -17,8 +17,10 @@ var brokerListCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		client, controller := helper.ConnectKafkaClient()
-		defer client.Close()
+		client := helper.ConnectKafkaClient()
+		broker, err := client.Controller()
+		helper.Check(err)
+		defer broker.Close()
 
 		fmt.Println()
 
@@ -26,7 +28,7 @@ var brokerListCmd = &cobra.Command{
 
 		for _, broker := range client.Brokers() {
 
-			fmt.Printf("%-3d %-40s %t\n", broker.ID(), broker.Addr(), broker.ID() == controller.ID())
+			fmt.Printf("%-3d %-40s %t\n", broker.ID(), broker.Addr(), broker.ID() == broker.ID())
 
 		}
 

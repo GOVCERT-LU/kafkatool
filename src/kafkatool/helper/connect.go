@@ -38,15 +38,12 @@ func getBrokerNames() []string {
 }
 
 // ConnectKafkaClient makes a client connection to a Kafka cluster.
-func ConnectKafkaClient() (sarama.Client, *sarama.Broker) {
+func ConnectKafkaClient() sarama.Client {
 
 	client, err := sarama.NewClient(getBrokerNames(), kafkaConfig())
 	Check(err)
 
-	controller, err := client.Controller()
-	Check(err)
-
-	return client, controller
+	return client
 
 }
 
