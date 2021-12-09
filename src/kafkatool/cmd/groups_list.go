@@ -13,6 +13,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	groupsListLagThreshold int64
+)
+
 // consumerGroupListCmd represents the list command
 var groupsListCmd = &cobra.Command{
 	Use:   "list",
@@ -55,12 +59,9 @@ var groupsListCmd = &cobra.Command{
 			fmt.Printf("consumer_group=%s state=%s\n", colorMain(consumerGroup), state)
 
 			for _, groupMemberDescription := range details[0].Members {
-				fmt.Printf("client_id=%s, host=%s", colorBold(groupMemberDescription.ClientId), colorBold(groupMemberDescription.ClientHost))
+				fmt.Printf("client_id=%s, host=%s", colorBold(groupMemberDescription.ClientId), colorBold(groupMemberDescription.ClientHost[1:]))
 
 				assignment, err := groupMemberDescription.GetMemberAssignment()
-				helper.Check(err)
-
-				offsetFetchResponse, err := clusterAdmin.ListConsumerGroupOffsets(consumerGroup, assignment.Topics)
 				helper.Check(err)
 
 				for topic, partitions := range assignment.Topics {
@@ -68,6 +69,9 @@ var groupsListCmd = &cobra.Command{
 					fmt.Printf(", topic=%s (", colorBold(topic))
 
 					for i, p := range partitions {
+
+						offsetFetchResponse, err := clusterAdmin.ListConsumerGroupOffsets(consumerGroup, assignment.Topics)
+						helper.Check(err)
 						partitionOffset, err := kafkaClient.GetOffset(topic, p, sarama.OffsetNewest)
 						helper.Check(err)
 
@@ -76,7 +80,7 @@ var groupsListCmd = &cobra.Command{
 						}
 
 						lag := partitionOffset - offsetFetchResponse.Blocks[topic][p].Offset
-						if lag > 10000 {
+						if lag > groupsListLagThreshold {
 							fmt.Printf("partition=%s lag=%s", colorBold(p), colorNOK(lag))
 						} else {
 							fmt.Printf("partition=%s lag=%s", colorBold(p), colorOK(lag))
@@ -98,4 +102,6 @@ var groupsListCmd = &cobra.Command{
 
 func init() {
 	groupsCmd.AddCommand(groupsListCmd)
+
+	groupsListCmd.Flags().Int64Var(&groupsListLagThreshold, "lag-threshold", 10000, "threshold to flag the lag red")
 }

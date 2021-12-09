@@ -11,8 +11,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var groupNameDelete string
-var groupYesPrompt bool
+var (
+	groupNameDelete string
+	groupYesPrompt  bool
+)
 
 // deleteCmd represents the delete command
 var groupsDeleteCmd = &cobra.Command{
