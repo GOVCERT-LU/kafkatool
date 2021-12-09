@@ -134,10 +134,11 @@ func retrieveTopicDataset(metadata *sarama.MetadataResponse) []*topicData {
 
 func draw() {
 
-	client, controller := helper.ConnectKafkaClient()
-	defer client.Close()
+	broker, err := helper.ConnectKafkaClient().Controller()
+	helper.Check(err)
+	defer broker.Close()
 
-	metadata := helper.RetrieveMetadata(controller)
+	metadata := helper.RetrieveMetadata(broker)
 
 	topicDataset := retrieveTopicDataset(metadata)
 

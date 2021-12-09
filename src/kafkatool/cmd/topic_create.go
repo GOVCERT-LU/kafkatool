@@ -26,8 +26,10 @@ var topicCreateCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		client, controller := helper.ConnectKafkaClient()
-		defer client.Close()
+		broker, err := helper.ConnectKafkaClient().Controller()
+		helper.Check(err)
+
+		defer broker.Close()
 
 		topicRequest := &sarama.CreateTopicsRequest{
 			Version: 2,               // version 2 requires Kafka 1.0.0
@@ -40,7 +42,7 @@ var topicCreateCmd = &cobra.Command{
 			},
 		}
 
-		resp, err := controller.CreateTopics(topicRequest)
+		resp, err := broker.CreateTopics(topicRequest)
 		helper.Check(err)
 
 		if resp.TopicErrors[topicNameCreate].ErrMsg != nil {

@@ -22,8 +22,9 @@ var topicDeleteCmd = &cobra.Command{
 	Short: "Delete a topic",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		client, controller := helper.ConnectKafkaClient()
-		defer client.Close()
+		broker, err := helper.ConnectKafkaClient().Controller()
+		helper.Check(err)
+		defer broker.Close()
 
 		topicRequest := &sarama.DeleteTopicsRequest{
 			Version: 1,               // version 2 requires Kafka 1.0.0
@@ -35,7 +36,7 @@ var topicDeleteCmd = &cobra.Command{
 
 		if yesPrompt || helper.Confirmation(fmt.Sprintf("Do you really want to delete the topic %s?", topicNameDelete)) {
 
-			resp, err := controller.DeleteTopics(topicRequest)
+			resp, err := broker.DeleteTopics(topicRequest)
 			helper.Check(err)
 
 			fmt.Println()
