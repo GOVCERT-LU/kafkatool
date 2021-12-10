@@ -1,6 +1,6 @@
-FROM golang:1.16 AS toolchain
+FROM golang:1.17 AS toolchain
 
-FROM debian:buster AS builder
+FROM debian:bullseye AS builder
 
 # set the GOVCERT proxy
 ENV HTTP_PROXY="http://proxy.int.govcert.etat.lu:8080"
