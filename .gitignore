@@ -8,3 +8,4 @@ pkg/
 Gopkg.lock
 kafkatool_completion.sh
 src/kafkatool/kafkatool
+build/kafkatool
