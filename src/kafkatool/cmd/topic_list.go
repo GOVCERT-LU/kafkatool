@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"kafkatool/helper"
 	"os"
+	"sort"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -31,7 +32,11 @@ type topicData struct {
 	partitions  []*partitionData
 }
 
-var topicListInternal bool
+var (
+	topicListInternal bool
+	topicListDetails  bool
+	topicListMonitor  bool
+)
 
 func printText(x int, y int, text string, fg termbox.Attribute) (int, int) {
 
@@ -121,26 +126,32 @@ func retrieveTopicDataset(metadata *sarama.MetadataResponse) []*topicData {
 			partitionData.replicas = partition.Replicas
 			partitionData.isr = partition.Isr
 
+			sort.Slice(partitionData.replicas, func(i, j int) bool {
+				return partitionData.replicas[i] < partitionData.replicas[j]
+			})
+			sort.Slice(partitionData.isr, func(i, j int) bool {
+				return partitionData.isr[i] < partitionData.isr[j]
+			})
+
 			topicData.partitions = append(topicData.partitions, partitionData)
 		}
+		sort.Slice(topicData.partitions, func(i, j int) bool {
+			return topicData.partitions[i].id < topicData.partitions[j].id
+		})
 
 		topicDataset = append(topicDataset, topicData)
 
 	}
 
+	sort.Slice(topicDataset, func(i, j int) bool {
+		return topicDataset[i].name < topicDataset[j].name
+	})
+
 	return topicDataset
 
 }
 
-func draw() {
-
-	broker, err := helper.ConnectKafkaClient().Controller()
-	helper.Check(err)
-	defer broker.Close()
-
-	metadata := helper.RetrieveMetadata(broker)
-
-	topicDataset := retrieveTopicDataset(metadata)
+func draw(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
 
 	// determine the number of pages
 	_, termHeight := termbox.Size()
@@ -195,35 +206,59 @@ func draw() {
 
 }
 
+func monitor(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
+	// init termbox
+	err := termbox.Init()
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		for {
+			ev := termbox.PollEvent()
+			if ev.Type == termbox.EventKey && (ev.Key == termbox.KeyEsc || ev.Ch == 113 || ev.Key == termbox.KeyCtrlC) {
+				termbox.Close()
+				os.Exit(0)
+			}
+		}
+	}()
+
+	// draw the content in a loop
+	for {
+		draw(metadata, topicDataset)
+	}
+}
+
 // topicListCmd represents the list command
 var topicListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all partitions",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		// init termbox
-		err := termbox.Init()
-		if err != nil {
-			panic(err)
-		}
+		broker, err := helper.ConnectKafkaClient().Controller()
+		helper.Check(err)
+		defer broker.Close()
 
-		go func() {
+		metadata := helper.RetrieveMetadata(broker)
+		topicDataset := retrieveTopicDataset(metadata)
 
-			for {
-				ev := termbox.PollEvent()
-				if ev.Type == termbox.EventKey && (ev.Key == termbox.KeyEsc || ev.Ch == 113 || ev.Key == termbox.KeyCtrlC) {
-					termbox.Close()
-					os.Exit(0)
+		if topicListMonitor {
+
+			monitor(metadata, topicDataset)
+
+		} else {
+
+			for _, topic := range topicDataset {
+
+				fmt.Println(topic.name)
+
+				if topicListDetails {
+					for _, partition := range topic.partitions {
+						fmt.Printf("id=%d leader=%d replicas=%v isr=%v\n", partition.id, partition.leader, partition.replicas, partition.isr)
+					}
+					fmt.Println()
 				}
 			}
-
-		}()
-
-		// draw the content in a loop
-		for {
-
-			draw()
-
 		}
 
 	},
@@ -232,6 +267,8 @@ var topicListCmd = &cobra.Command{
 func init() {
 	topicCmd.AddCommand(topicListCmd)
 
-	topicListCmd.Flags().BoolVar(&topicListInternal, "internal", false, "Show internal partitions (default=false)")
+	topicListCmd.Flags().BoolVar(&topicListInternal, "internal", false, "Show internal topics")
+	topicListCmd.Flags().BoolVar(&topicListDetails, "details", false, "Show topic details")
+	topicListCmd.Flags().BoolVar(&topicListMonitor, "monitor", false, "Continuously monitor the topics")
 
 }
