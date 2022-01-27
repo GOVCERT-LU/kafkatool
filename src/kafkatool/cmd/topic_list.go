@@ -151,7 +151,14 @@ func retrieveTopicDataset(metadata *sarama.MetadataResponse) []*topicData {
 
 }
 
-func draw(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
+func draw() {
+
+	broker, err := helper.ConnectKafkaClient().Controller()
+	helper.Check(err)
+	defer broker.Close()
+
+	metadata := helper.RetrieveMetadata(broker)
+	topicDataset := retrieveTopicDataset(metadata)
 
 	// determine the number of pages
 	_, termHeight := termbox.Size()
@@ -206,7 +213,7 @@ func draw(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
 
 }
 
-func monitor(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
+func monitor() {
 	// init termbox
 	err := termbox.Init()
 	if err != nil {
@@ -225,7 +232,7 @@ func monitor(metadata *sarama.MetadataResponse, topicDataset []*topicData) {
 
 	// draw the content in a loop
 	for {
-		draw(metadata, topicDataset)
+		draw()
 	}
 }
 
@@ -235,18 +242,18 @@ var topicListCmd = &cobra.Command{
 	Short: "List all partitions",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		broker, err := helper.ConnectKafkaClient().Controller()
-		helper.Check(err)
-		defer broker.Close()
-
-		metadata := helper.RetrieveMetadata(broker)
-		topicDataset := retrieveTopicDataset(metadata)
-
 		if topicListMonitor {
 
-			monitor(metadata, topicDataset)
+			monitor()
 
 		} else {
+
+			broker, err := helper.ConnectKafkaClient().Controller()
+			helper.Check(err)
+			defer broker.Close()
+
+			metadata := helper.RetrieveMetadata(broker)
+			topicDataset := retrieveTopicDataset(metadata)
 
 			for _, topic := range topicDataset {
 
