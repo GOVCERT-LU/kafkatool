@@ -1,3 +1,9 @@
+kafkatool (1.4.1-1) stable; urgency=medium
+
+  * Fix topic list monitoring refresh.
+
+ -- Daniel <daniel.struck@govcert.etat.lu>  Fri, 28 Jan 2022 11:45:22 +0100
+
 kafkatool (1.4.0-1) stable; urgency=medium
 
   * Improved topic list command
