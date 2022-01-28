@@ -36,3 +36,14 @@ make tar
 ```bash
 dpkg-buildpackage -us -uc
 ```
+
+### Deploy to the GOVCERT.LU repository
+
+```bash
+cd ..
+scp kafkatool_*.deb root@web1.vm.dc.govcert.etat.lu:/opt/aptly_custom_debian_repo/packages_src/kafka/
+
+sshr web1.vm.dc.govcert.etat.lu
+cd /opt/aptly_custom_debian_repo
+./add_update_kafka.sh
+```
