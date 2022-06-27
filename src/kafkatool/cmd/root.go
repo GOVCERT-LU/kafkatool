@@ -52,9 +52,9 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kafkatool.yaml)")
-	rootCmd.PersistentFlags().Int("port", 9092, "port to connect to Kafka")
+	rootCmd.PersistentFlags().Int("port", 9093, "port to connect to Kafka")
 	rootCmd.PersistentFlags().String("broker", "localhost", "broker list")
-	rootCmd.PersistentFlags().Bool("tls", false, "enable TLS")
+	rootCmd.PersistentFlags().Bool("tls", true, "enable TLS")
 
 	viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("broker", rootCmd.PersistentFlags().Lookup("broker"))
