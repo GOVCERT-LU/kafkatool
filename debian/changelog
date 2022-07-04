@@ -1,3 +1,10 @@
+kafkatool (1.4.3-1.1) stable; urgency=medium
+
+  * Update dependencies.
+  * Add support for SASL PLAIN.
+
+ -- root <daniel.struck@govcert.etat.lu>  Mon, 04 Jul 2022 16:06:28 +0200
+
 kafkatool (1.4.2-1) stable; urgency=medium
 
   * Update dependencies

@@ -1,8 +1,8 @@
 Package: kafkatool
-Version: 1.4.2-1
+Version: 1.4.3-1.1
 Architecture: amd64
 Maintainer: Daniel Struck <daniel.struck@govcert.etat.lu>
-Installed-Size: 9950
+Installed-Size: 9956
 Depends: libc6 (>= 2.3.2)
 Suggests: bash-completion
 Section: database
