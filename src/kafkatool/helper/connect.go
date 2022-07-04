@@ -17,6 +17,14 @@ func kafkaConfig() *sarama.Config {
 	config.Version = sarama.V3_1_0_0
 	config.Net.TLS.Enable = viper.GetBool("tls")
 	config.Producer.Return.Successes = true
+
+	if viper.GetBool("sasl_plain") {
+		config.Net.SASL.Handshake = true
+		config.Net.SASL.Enable = true
+		config.Net.SASL.User = viper.GetString("sasl_username")
+		config.Net.SASL.Password = viper.GetString("sasl_password")
+	}
+
 	return config
 
 }

@@ -55,10 +55,16 @@ func init() {
 	rootCmd.PersistentFlags().Int("port", 9093, "port to connect to Kafka")
 	rootCmd.PersistentFlags().String("broker", "localhost", "broker list")
 	rootCmd.PersistentFlags().Bool("tls", true, "enable TLS")
+	rootCmd.PersistentFlags().Bool("sasl_plain", false, "enable SASL PLAIN")
+	rootCmd.PersistentFlags().String("sasl_username", "", "SASL username")
+	rootCmd.PersistentFlags().String("sasl_password", "", "SASL password")
 
 	viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("broker", rootCmd.PersistentFlags().Lookup("broker"))
 	viper.BindPFlag("tls", rootCmd.PersistentFlags().Lookup("tls"))
+	viper.BindPFlag("sasl_plain", rootCmd.PersistentFlags().Lookup("sasl_plain"))
+	viper.BindPFlag("sasl_username", rootCmd.PersistentFlags().Lookup("sasl_username"))
+	viper.BindPFlag("sasl_password", rootCmd.PersistentFlags().Lookup("sasl_password"))
 
 }
 
@@ -86,4 +92,5 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+
 }
