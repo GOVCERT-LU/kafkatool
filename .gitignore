@@ -1,11 +1,15 @@
+bin
+pkg
+build
+debian/DEBIAN
+debian/debhelper-build-stamp
+debian/.debhelper
+
 src/github.com/
 src/kafkatool/vendor/
-bin/
-pkg/
+src/kafkatool/kafkatool
 
-/.vscode
+.vscode
 *.deb
 Gopkg.lock
 kafkatool_completion.sh
-src/kafkatool/kafkatool
-build/kafkatool
