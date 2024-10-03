@@ -1,9 +1,15 @@
+kafkatool (1.4.3-1.2) stable; urgency=medium
+
+  * Cleanup build tools.
+
+ -- Georges Toth <georges.toth@govcert.etat.lu>  Thu, 03 Oct 2024 11:41:57 +0200
+
 kafkatool (1.4.3-1.1) stable; urgency=medium
 
   * Update dependencies.
   * Add support for SASL PLAIN.
 
- -- root <daniel.struck@govcert.etat.lu>  Mon, 04 Jul 2022 16:06:28 +0200
+ -- Daniel <daniel.struck@govcert.etat.lu>  Mon, 04 Jul 2022 16:06:28 +0200
 
 kafkatool (1.4.2-1) stable; urgency=medium
 

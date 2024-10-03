@@ -20,7 +20,11 @@ The bash completion file is available as **./kafkatool_completion.sh**.
 ### Add a new entry to the changelog
 
 ```bash
-dch
+# with a specific version
+dch --urgency medium --distribution stable --newversion "2.4.6"
+
+# only bump the package
+dch --urgency medium --distribution stable
 ```
 
 ### Create the source tarball
@@ -32,5 +36,5 @@ make tar
 ### Create the Debian package
 
 ```bash
-dpkg-buildpackage -us -uc
+dpkg-buildpackage -b --no-sign
 ```

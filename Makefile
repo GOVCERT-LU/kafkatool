@@ -22,15 +22,22 @@ compile:
 clean: 
 	rm -f build/$(BINARY_NAME)
 	rm -f kafkatool_completion.sh
+	rm -fr pkg
 
 clean_debian:	
 	rm -fr debian/kafkatool
 	rm -f debian/files
 	rm -f debian/kafkatool.*
 	rm -fr debian/.debhelper
+	rm -fr debian/DEBIAN
 
 tar: clean
 	cd .. \
 	&& tar \
 	--exclude='.git' \
-	-cjvf $(BINARY_NAME)_$(VERSION).orig.tar.bz2 kafkatool	
+	--exclude='bin' \
+	--exclude='build' \
+	--exclude='pkg' \
+	--exclude='src/kafkatool/kafkatool' \
+	--exclude='.gitignore' \
+	-cJvf $(BINARY_NAME)_$(VERSION).orig.tar.xz kafkatool
