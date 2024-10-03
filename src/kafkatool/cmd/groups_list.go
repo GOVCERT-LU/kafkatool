@@ -8,7 +8,7 @@ import (
 	"kafkatool/helper"
 	"sort"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )

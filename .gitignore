@@ -4,6 +4,9 @@ build
 debian/DEBIAN
 debian/debhelper-build-stamp
 debian/.debhelper
+debian/files
+debian/kafkatool.substvars
+debian/kafkatool
 
 src/github.com/
 src/kafkatool/vendor/

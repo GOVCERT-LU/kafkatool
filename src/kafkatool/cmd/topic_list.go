@@ -12,7 +12,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	termbox "github.com/nsf/termbox-go"
 )
 

@@ -1,3 +1,9 @@
+kafkatool (1.5.0) stable; urgency=medium
+
+  * Update dependencies.
+
+ -- Georges Toth <georges.toth@govcert.etat.lu>  Thu, 03 Oct 2024 13:34:36 +0200
+
 kafkatool (1.4.3-1.2) stable; urgency=medium
 
   * Cleanup build tools.
