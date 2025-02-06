@@ -1,3 +1,11 @@
+kafkatool (1.5.3) stable; urgency=medium
+
+  * Update dependencies.
+  * Add support to use oldest offset.
+  * Add support to disable verbose output for topic read.
+
+ -- Daniel <daniel.struck@govcert.etat.lu>  Thu, 06 Feb 2025 15:02:11 +0100
+
 kafkatool (1.5.2) stable; urgency=medium
 
   * Update dependencies.

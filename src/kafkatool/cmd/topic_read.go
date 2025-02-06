@@ -1,4 +1,4 @@
-// Copyright (C) 2018, CERT Gouvernemental (GOVCERT.LU)
+// Copyright (C) 2025, CERT Gouvernemental (GOVCERT.LU)
 // Author: Daniel Struck <daniel.struck@govcert.etat.lu>
 
 package cmd
