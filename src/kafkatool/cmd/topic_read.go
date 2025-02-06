@@ -20,6 +20,9 @@ var (
 	topicNameRead string
 	consumed      uint64
 	wg            sync.WaitGroup
+	offsetOldest  bool // Flag for oldest offset
+	offsetNewest  bool // Flag for newest offset
+	verbose       bool
 )
 
 func readFromPartition(partitionConsumer sarama.PartitionConsumer, partitionID int32, signals chan os.Signal) {
@@ -34,7 +37,11 @@ ConsumerLoop:
 	for {
 		select {
 		case msg := <-partitionConsumer.Messages():
-			log.Printf("partition %d offset %d: %s\n", partitionID, msg.Offset, msg.Value)
+			if verbose {
+				fmt.Printf("partition %d offset %d: %s\n", partitionID, msg.Offset, msg.Value)
+			} else {
+				fmt.Printf("%s\n", msg.Value)
+			}
 			atomic.AddUint64(&consumed, 1)
 		case <-signals:
 			break ConsumerLoop
@@ -64,11 +71,16 @@ var topicReadCmd = &cobra.Command{
 			}
 		}()
 
+		var offset int64 = sarama.OffsetNewest // Default offset
+		if offsetOldest {
+			offset = sarama.OffsetOldest
+		}
+
 		// Sarama's Consumer type does not currently support automatic consumer-group rebalancing and offset tracking.
 		// workaround at the moment
 		for i := int32(0); i < 64; i++ {
 
-			partitionConsumer, err := consumer.ConsumePartition(topicNameRead, i, sarama.OffsetNewest)
+			partitionConsumer, err := consumer.ConsumePartition(topicNameRead, i, offset)
 			if err != nil {
 				break
 			}
@@ -83,7 +95,7 @@ var topicReadCmd = &cobra.Command{
 
 		}
 
-		fmt.Println("Stop the consumers with CTRL+c")
+		log.Println("Stop the consumers with CTRL+c")
 
 		wg.Wait()
 
@@ -107,4 +119,12 @@ func init() {
 
 	topicReadCmd.Flags().StringVar(&topicNameRead, "name", "", "topic name")
 	topicReadCmd.MarkFlagRequired("name")
+
+	// Add flags for offset configuration
+	topicReadCmd.Flags().BoolVar(&offsetOldest, "oldest", false, "Consume from the oldest offset")
+	topicReadCmd.Flags().BoolVar(&offsetNewest, "newest", true, "Consume from the newest offset (default)") // Newest is the default
+	// Add a check to prevent setting both --oldest and --newest together.  Newest is the default, so this isn't strictly necessary, but good practice.
+	topicReadCmd.MarkFlagsMutuallyExclusive("oldest", "newest")
+
+	topicReadCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose output")
 }
