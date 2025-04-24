@@ -16,3 +16,6 @@ src/kafkatool/kafkatool
 *.deb
 Gopkg.lock
 kafkatool_completion.sh
+
+config.yaml
+README_TEMP.md

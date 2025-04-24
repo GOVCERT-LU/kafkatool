@@ -14,7 +14,7 @@ var (
 
 func kafkaConfig() *sarama.Config {
 	config := sarama.NewConfig()
-	config.Version = sarama.V3_1_0_0
+	config.Version = sarama.V3_9_0_0
 	config.Net.TLS.Enable = viper.GetBool("tls")
 	config.Producer.Return.Successes = true
 
