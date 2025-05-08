@@ -1,4 +1,4 @@
-FROM golang:1.24.2 AS toolchain
+FROM golang:1.24.3 AS toolchain
 
 
 FROM debian:bookworm AS builder
